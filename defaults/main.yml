@@ -1,2 +1,5 @@
 ---
 # defaults file for python-lxml
+
+proxy_env: { }
+
