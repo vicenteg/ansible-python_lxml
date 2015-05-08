@@ -9,20 +9,8 @@
     - libxslt-devel
     - libxml2
     - libxml2-devel
-    - python-devel
-    - python-setuptools
   when: ansible_distribution in ('CentOS','RedHat','Amazon')
   environment: proxy_env
-
-- name: install pip (Amazon Linux)
-  yum: name=python-pip state=present
-  environment: proxy_env
-  when: ansible_distribution in ('Amazon')
-
-- name: install pip
-  command: easy_install pip
-  environment: proxy_env
-  when: ansible_distribution in ('CentOS', 'RedHat')
 
 - name: install lxml
   pip: name=lxml state=present
