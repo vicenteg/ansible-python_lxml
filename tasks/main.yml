@@ -12,6 +12,21 @@
   when: ansible_distribution in ('CentOS','RedHat','Amazon')
   environment: proxy_env
 
-- name: install lxml
-  pip: name=lxml state=present
-  environment: proxy_env
+- name: push lxml 3.4.4 egg for python 2.6
+  copy: src=lxml-3.4.4-py2.6-linux-x86_64.egg dest=/tmp/lxml-3.4.4-py2.6-linux-x86_64.egg
+  when: ansible_python_version | version_compare('2.7', '<')
+
+- name: install lxml egg
+  sudo: yes
+  command: easy_install /tmp/lxml-3.4.4-py2.6-linux-x86_64.egg
+  when: "{{ansible_python_version | version_compare('2.7', '<')}}"
+
+- name: push lxml 3.4.4 wheel for python 2.7
+  copy: src=lxml-3.4.4-cp27-none-linux_x86_64.whl dest=/tmp/lxml-3.4.4-cp27-none-linux_x86_64.whl
+  when: ansible_python_version | version_compare('2.7', '>=')
+
+- name: install lxml wheel
+  sudo: yes
+  pip: name=/tmp/lxml-3.4.4-cp27-none-linux_x86_64.whl state=present
+  when: "{{ansible_python_version | version_compare('2.7', '>=')}}"
+
