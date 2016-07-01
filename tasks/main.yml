@@ -1,7 +1,8 @@
 ---
 # tasks file for python-lxml
 - name: install libxml and dependencies for the xml module
-  sudo_user: root
+  become: yes
+  become_user: root
   yum: name="{{item}}" state=present
   with_items:
     - libxslt
@@ -14,7 +15,8 @@
   when: ansible_python_version | version_compare('2.7', '<')
 
 - name: install lxml egg
-  sudo_user: root
+  become: yes
+  become_user: root
   command: easy_install /tmp/lxml-3.4.4-py2.6-linux-x86_64.egg
   when: "{{ansible_python_version | version_compare('2.7', '<')}}"
 
@@ -23,7 +25,8 @@
   when: ansible_python_version | version_compare('2.7', '>=')
 
 - name: install lxml wheel
-  sudo_user: root
+  become: yes
+  become_user: root
   pip: name=/tmp/lxml-3.4.4-cp27-none-linux_x86_64.whl state=present
   when: "{{ansible_python_version | version_compare('2.7', '>=')}}"
 
