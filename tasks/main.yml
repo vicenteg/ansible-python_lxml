@@ -8,7 +8,7 @@
     - libxslt
     - libxml2
   when: ansible_distribution in ('CentOS','RedHat','Amazon')
-  environment: proxy_env
+  environment: '{{proxy_env}}'
 
 - name: push lxml 3.4.4 egg for python 2.6
   copy: src=lxml-3.4.4-py2.6-linux-x86_64.egg dest=/tmp/lxml-3.4.4-py2.6-linux-x86_64.egg
